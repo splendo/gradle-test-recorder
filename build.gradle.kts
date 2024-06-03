@@ -4,7 +4,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlinter)
     alias(libs.plugins.versionCheck)
     alias(libs.plugins.androidApplication) apply false
 }
@@ -12,7 +12,7 @@ plugins {
 subprojects {
     apply {
         plugin(rootProject.libs.plugins.detekt.get().pluginId)
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+        plugin(rootProject.libs.plugins.kotlinter.get().pluginId)
     }
 
     ktlint {

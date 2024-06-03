@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("rs.houtbecke.gradle.recorder.plugin")
+    alias(libs.plugins.compose)
 }
 
 kotlin {
@@ -15,9 +16,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     compileOptions {
