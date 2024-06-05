@@ -1,8 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
     `java-gradle-plugin`
+    `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
     alias(libs.plugins.pluginPublish)
     alias(libs.plugins.kover)
 }
@@ -59,5 +62,11 @@ tasks.create("setupPluginUploadFromEnvironment") {
 }
 
 kover {
+}
+
+val compileKotlin: KotlinCompile by tasks
+
+compileKotlin.kotlinOptions {
+    languageVersion = "2.0"
 }
 

@@ -15,21 +15,8 @@ subprojects {
         plugin(rootProject.libs.plugins.kotlinter.get().pluginId)
     }
 
-    ktlint {
-        debug.set(false)
-        verbose.set(true)
-        android.set(false)
-        outputToConsole.set(true)
-        ignoreFailures.set(false)
-        enableExperimentalRules.set(true)
-        filter {
-            exclude("**/generated/**")
-            include("**/kotlin/**")
-        }
-    }
-
     detekt {
-        config = rootProject.files("config/detekt/detekt.yml")
+        config.from(rootProject.files("config/detekt/detekt.yml"))
     }
 }
 
@@ -48,7 +35,7 @@ tasks.withType<DependencyUpdatesTask> {
 
 fun String.isNonStable() = "^[0-9,.v-]+(-r)?$".toRegex().matches(this).not()
 
-tasks.register("clean", Delete::class.java) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
 

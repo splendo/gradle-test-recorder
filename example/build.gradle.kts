@@ -98,7 +98,7 @@ task("startSimulator") {
 task("shutdownSimulator") {
     fun shutDownSimulator(device: String) {
         val command = listOf("/usr/bin/xcrun", "simctl", "shutdown", device)
-        val (exitCode, out) = runProcess(command)
+        val (exitCode, _) = runProcess(command)
         assert(0 == exitCode)
         println("simulator shutdown")
     }

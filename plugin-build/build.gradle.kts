@@ -30,7 +30,7 @@ tasks.withType<Detekt>().configureEach {
     }
 }
 
-tasks.register("clean", Delete::class.java) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
 
