@@ -5,8 +5,7 @@ import rs.houtbecke.example.MainActivity
 class TestExample {
 
     @Test
-    fun runActivity():Unit =
-        launchActivity<MainActivity>().use {
-            Thread.sleep(5000)
-        }
+    fun runActivity(): Unit = launchActivity<MainActivity>().use {
+        Thread.sleep(5000)
+    }
 }

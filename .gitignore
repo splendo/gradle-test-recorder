@@ -10,3 +10,5 @@
 /.idea/assetWizardSettings.xml
 build
 /example/out.mp4
+
+plugin-build/.kotlin/

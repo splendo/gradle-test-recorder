@@ -4,7 +4,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlinter)
     alias(libs.plugins.versionCheck)
     alias(libs.plugins.androidApplication) apply false
 }
@@ -12,24 +12,11 @@ plugins {
 subprojects {
     apply {
         plugin(rootProject.libs.plugins.detekt.get().pluginId)
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
-    }
-
-    ktlint {
-        debug.set(false)
-        verbose.set(true)
-        android.set(false)
-        outputToConsole.set(true)
-        ignoreFailures.set(false)
-        enableExperimentalRules.set(true)
-        filter {
-            exclude("**/generated/**")
-            include("**/kotlin/**")
-        }
+        plugin(rootProject.libs.plugins.kotlinter.get().pluginId)
     }
 
     detekt {
-        config = rootProject.files("config/detekt/detekt.yml")
+        config.from(rootProject.files("config/detekt/detekt.yml"))
     }
 }
 
@@ -48,7 +35,7 @@ tasks.withType<DependencyUpdatesTask> {
 
 fun String.isNonStable() = "^[0-9,.v-]+(-r)?$".toRegex().matches(this).not()
 
-tasks.register("clean", Delete::class.java) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
 

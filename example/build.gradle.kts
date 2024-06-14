@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("rs.houtbecke.gradle.recorder.plugin")
+    alias(libs.plugins.compose)
 }
 
 kotlin {
@@ -11,13 +12,10 @@ kotlin {
 
 android {
     setCompileSdkVersion(34)
-    namespace = "splendo.gradle.plugin.example"
+    namespace = "rs.houtbecke.example"
 
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     compileOptions {
@@ -100,7 +98,7 @@ task("startSimulator") {
 task("shutdownSimulator") {
     fun shutDownSimulator(device: String) {
         val command = listOf("/usr/bin/xcrun", "simctl", "shutdown", device)
-        val (exitCode, out) = runProcess(command)
+        val (exitCode, _) = runProcess(command)
         assert(0 == exitCode)
         println("simulator shutdown")
     }

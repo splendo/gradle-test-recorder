@@ -27,18 +27,18 @@ import kotlin.math.max
 import kotlin.math.sin
 import kotlin.random.Random
 
-private fun Modifier.noRippleClickable(onClick: (Offset) -> Unit): Modifier =
-    composed {
-        clickable(
-            indication = null,
-            interactionSource = remember { MutableInteractionSource() }) {
-        }.pointerInput(Unit) {
-            detectTapGestures(onTap = {
-                println("tap offset = $it")
-                onClick(it)
-            })
-        }
+private fun Modifier.noRippleClickable(onClick: (Offset) -> Unit): Modifier = composed {
+    clickable(
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() },
+    ) {
+    }.pointerInput(Unit) {
+        detectTapGestures(onTap = {
+            println("tap offset = $it")
+            onClick(it)
+        })
     }
+}
 
 private var areaWidth = 0
 private var areaHeight = 0
@@ -48,9 +48,11 @@ private var areaHeight = 0
 fun BouncingBallsApp(initialBallsCount: Int = 5) {
     val items = remember {
         val list = mutableStateListOf<BouncingBall>()
-        list.addAll(generateSequence {
-            BouncingBall.createBouncingBall()
-        }.take(initialBallsCount))
+        list.addAll(
+            generateSequence {
+                BouncingBall.createBouncingBall()
+            }.take(initialBallsCount),
+        )
         list
     }
 
@@ -63,7 +65,7 @@ fun BouncingBallsApp(initialBallsCount: Int = 5) {
             }.onSizeChanged {
                 areaWidth = it.width
                 areaHeight = it.height
-            }
+            },
     ) {
         Balls(items)
     }
@@ -71,8 +73,9 @@ fun BouncingBallsApp(initialBallsCount: Int = 5) {
     LaunchedEffect(Unit) {
         var lastTime = 0L
         var dt = 0L
+        val start = System.currentTimeMillis()
 
-        while (true) {
+        while (System.currentTimeMillis() < start + 5000) {
             withFrameNanos { time ->
                 dt = time - lastTime
                 if (lastTime == 0L) {
@@ -95,9 +98,9 @@ private fun Balls(items: List<BouncingBall>) {
                 modifier = Modifier
                     .offset(
                         x = (ball.circle.x.value - ball.circle.r).dp,
-                        y = (ball.circle.y.value - ball.circle.r).dp
+                        y = (ball.circle.y.value - ball.circle.r).dp,
                     ).size((2 * ball.circle.r).dp)
-                    .background(ball.color, CircleShape)
+                    .background(ball.color, CircleShape),
             )
         }
     }
@@ -106,10 +109,12 @@ private fun Balls(items: List<BouncingBall>) {
 private class Circle(
     var x: MutableState<Float>,
     var y: MutableState<Float>,
-    val r: Float
+    val r: Float,
 ) {
     constructor(x: Float, y: Float, r: Float) : this(
-        mutableStateOf(x), mutableStateOf(y), r
+        mutableStateOf(x),
+        mutableStateOf(y),
+        r,
     )
 
     fun moveCircle(s: Float, angle: Float, width: Int, height: Int, r: Float) {
@@ -138,14 +143,14 @@ private enum class Position {
     TOUCHES_SOUTH,
     TOUCHES_NORTH,
     TOUCHES_WEST,
-    TOUCHES_EAST
+    TOUCHES_EAST,
 }
 
 private class BouncingBall(
     val circle: Circle,
     val velocity: Float,
     var angle: Double,
-    val color: Color = Color.Red
+    val color: Color = Color.Red,
 ) {
     fun recalculate(width: Int, height: Int, dt: Float) {
         val position = calculatePosition(circle, width, height)
@@ -165,7 +170,7 @@ private class BouncingBall(
             angle.toFloat(),
             width,
             height,
-            circle.r
+            circle.r,
         )
     }
 
@@ -177,7 +182,7 @@ private class BouncingBall(
         private fun randomOffset(): Offset {
             return Offset(
                 x = random.nextInt(100, 700).toFloat(),
-                y = random.nextInt(100, 500).toFloat()
+                y = random.nextInt(100, 500).toFloat(),
             )
         }
 
@@ -186,7 +191,7 @@ private class BouncingBall(
                 circle = Circle(x = offset.x, y = offset.y, r = random.nextInt(10, 50).toFloat()),
                 velocity = random.nextInt(100, 200).toFloat(),
                 angle = angles.random(),
-                color = colors.random().copy(alpha = max(0.3f, random.nextFloat()))
+                color = colors.random().copy(alpha = max(0.3f, random.nextFloat())),
             )
         }
     }
